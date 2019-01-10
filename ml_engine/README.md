@@ -63,3 +63,7 @@ you should se these files:
 ### Generate a serving model
 `export MODEL_BINARIES=$GCS_JOB_DIR/export/exporter/<folder with timestamp name>`
 `gcloud ml-engine versions create <the-version> --model <model-name> --origin $MODEL_BINARIES --runtime-version 1.10` 
+
+
+### Make an Online Prediction
+`gcloud ml-engine predict --model <model-name> --version <model-version> --text-instances test.csv`
