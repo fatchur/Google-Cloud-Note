@@ -5,9 +5,9 @@
 - requirements.txt     (list of required packages)
 - hptuning_config.yaml (for hyper parameters tunning)
 - trainer (a folder, contains of:)
-- - __init__.py
-- - model.py (main tensorflow graph python)
-- - task.py (imported by model.py, contains some arguments, ex: train file path, number of epoch ...)
+    - `__init__.py`
+    - `model.py` (main tensorflow graph python)
+    - `task.py` (imported by model.py, contains some arguments, ex: train file path, number of epoch ...)
 
 
 ### Preparation
@@ -19,6 +19,7 @@
 - example: `gs://fatchur_test/train.csv` and `gs://fatchur_test/test.csv`
 
 ### GCloud configuration:
+```
 DATE=`date '+%Y%m%d_%H%M%S'`
 export JOB_NAME=iris_$DATE
 export GCS_JOB_DIR=gs://your-bucket-name/path/to/my/jobs/$JOB_NAME
@@ -28,9 +29,11 @@ export EVAL_FILE=gs://fatchur_test/test.csv
 export TRAIN_STEPS=1000
 export EVAL_STEPS=100
 export REGION=us-central1
+```
 
 
 ### Run in Google Cloud ML Engine:
+```
 gcloud ml-engine jobs submit training $JOB_NAME \
     --stream-logs \
     --runtime-version 1.10 \
@@ -43,6 +46,7 @@ gcloud ml-engine jobs submit training $JOB_NAME \
     --eval-file $EVAL_FILE \
     --train-steps $TRAIN_STEPS \
     --eval-steps $EVAL_STEPS
+```
 
 
 ## Make Prediction
