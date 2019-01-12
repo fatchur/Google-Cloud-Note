@@ -1,7 +1,7 @@
 # Google-Cloud-ML-Enigne-Note
 
 ### MUST REMEMBER
-The all batch sizes of tensorflow graph should be unknown (None) 
+All batch sizes of tensorflow graph should be unknown (None) 
 
 ### The TF Frozen Fraph Model Structure in Google Storage
 - `saved_model.pb`
