@@ -130,3 +130,55 @@ you should se these files:
 -   -   click `continue`
 -   -   click `create key`
 -   -   `done`
+
+#### Executing json key
+-   `export GOOGLE_APPLICATION_CREDENTIALS=<path to your .json key>`
+-   `nano ~/.profilee` then add this: `export GOOGLE_APPLICATION_CREDENTIALS=<path to your .json key>`
+-   `source ~/.bashrc`
+
+#### Example python code
+```python
+from googleapiclient import discovery
+from googleapiclient import errors
+from oauth2client.client import GoogleCredentials
+
+
+def predict_json(project, model, instances, version=None):
+    """Send json data to a deployed model for prediction.
+
+    Args:
+        project (str): project where the Cloud ML Engine Model is deployed.
+        model (str): model name.
+        instances ([Mapping[str: Any]]): Keys should be the names of Tensors
+            your deployed model expects as inputs. Values should be datatypes
+            convertible to Tensors, or (potentially nested) lists of datatypes
+            convertible to tensors.
+        version: str, version of the model to target.
+    Returns:
+        Mapping[str: any]: dictionary of prediction results defined by the
+            model.
+    """
+    service = discovery.build('ml', 'v1') #, credentials=credential_json)
+    name = 'projects/{}/models/{}'.format(project, model)
+
+    if version is not None:
+        name += '/versions/{}'.format(version)
+
+    response = service.projects().predict(
+        name=name,
+        body={'instances': instances}
+    ).execute()
+
+    if 'error' in response:
+        raise RuntimeError(response['error'])
+
+    return response['predictions']
+
+PROJECT_ID  = "transmart-212604"
+MODEL = "try_egg"
+# the input
+instance = {"input": [[ 0.58, -0.8016005 ], [ 0.58, -0.53400874], [ 0.45333335, 0.8453637 ]]}
+
+res = predict_json(project=PROJECT_ID, model=MODEL, instances=instance, version="v5")
+print (res)
+```
