@@ -1,5 +1,12 @@
 # Google-Cloud-ML-Enigne-Note
 
+### Requirements
+- Tensorflow: `pip3 install tensorflow` or `pip3 install tensorflow-gpu`
+- Numpy : `pip3 install numpy`
+- json  : `pip3 install json`
+- Google API python client : `pip3 install --upgrade google-api-python-client`
+- Google auth client : `pip3 install --upgrade oauth2client`
+
 ### MUST REMEMBER
 All batch sizes of tensorflow graph should be unknown (None) 
 
