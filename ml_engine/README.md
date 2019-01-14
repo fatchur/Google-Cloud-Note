@@ -113,7 +113,20 @@ you should se these files:
 `gcloud ml-engine versions create <the-version> --model <model-name> --origin $MODEL_BINARIES --runtime-version 1.10` 
 
 
-### Make an Online Prediction
-`gcloud ml-engine predict --model <model-name> --version <model-version> --text-instances test.csv`
-
+### Make an Online Prediction with Gcloud Command
+`gcloud ml-engine predict --model <model-name> --version <model-version> --text-instances test.csv` <br>
 `gcloud ml-engine predict --model <model-name> --version <model-version> --json-instances test.json`
+
+### Make an Online Prediction with Python
+#### Requirements
+- Credential json
+#### How to get ?
+- select `IAM & admin` from hamburger menu
+- select `service account`
+-   -   click `create service account`
+-   -   fill the name and description
+-   -   click `create`
+-   -   fill the role
+-   -   click `continue`
+-   -   click `create key`
+-   -   `done`
