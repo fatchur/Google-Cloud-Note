@@ -1,21 +1,63 @@
 # Google-Cloud-ML-Enigne-Note
 
-### Requirements
-- Tensorflow: `pip3 install tensorflow` or `pip3 install tensorflow-gpu`
-- Numpy : `pip3 install numpy`
+### General Python Requirements
 - json  : `pip3 install json`
 - Google API python client : `pip3 install --upgrade google-api-python-client`
 - Google auth client : `pip3 install --upgrade oauth2client`
 
 ### MUST REMEMBER
-All batch sizes of tensorflow graph should be unknown (None) 
+All batch sizes of tensorflow graph **should be unknown** (None) 
 
-### The TF Frozen Fraph Model Structure in Google Storage
-- `saved_model.pb`
-- variables
--   - `variables.index`
--   - `variables.xxxxxx-of-xxxxxx`
+## ML-Engine Training
+### File Structure:
+- setup.py             (package installation)
+- requirements.txt     (list of required packages)
+- hptuning_config.yaml (for hyper parameters tunning)
+- trainer (a folder, contains of:)
+    - `__init__.py`
+    - `model.py` (main tensorflow graph python)
+    - `task.py` (imported by model.py, contains some arguments, ex: train file path, number of epoch ...)
 
+
+### Preparation
+#### Use virtual Environment (optional)
+- Create virtual environment: `virtualenv myvirtualenv`
+- Activate env source `myvirtualenv/bin/activate`
+
+#### Put your train.csv and test.csv in your gcp bucker
+- example: `gs://fatchur_test/train.csv` and `gs://fatchur_test/test.csv`
+
+### GCloud configuration:
+```
+DATE=`date '+%Y%m%d_%H%M%S'`
+export JOB_NAME=iris_$DATE
+export GCS_JOB_DIR=gs://your-bucket-name/path/to/my/jobs/$JOB_NAME
+echo $GCS_JOB_DIR
+export TRAIN_FILE=gs://fatchur_test/train.csv
+export EVAL_FILE=gs://fatchur_test/test.csv
+export TRAIN_STEPS=1000
+export EVAL_STEPS=100
+export REGION=us-central1
+```
+
+### Run in Google Cloud ML Engine:
+```
+gcloud ml-engine jobs submit training $JOB_NAME \
+    --stream-logs \
+    --runtime-version 1.10 \
+    --job-dir $GCS_JOB_DIR \
+    --module-name trainer.task \
+    --package-path trainer/ \
+    --region $REGION \
+    -- \
+    --train-file $TRAIN_FILE \
+    --eval-file $EVAL_FILE \
+    --train-steps $TRAIN_STEPS \
+    --eval-steps $EVAL_STEPS
+```
+
+
+## Service Model Preparation 
 ### Python Code for Creating TF Frozen Graph 
 ```python
 ############  serving model procedure #################
@@ -48,56 +90,16 @@ builder.add_meta_graph_and_variables(
 builder.save()
 ```
 
-### File Structure:
-- setup.py             (package installation)
-- requirements.txt     (list of required packages)
-- hptuning_config.yaml (for hyper parameters tunning)
-- trainer (a folder, contains of:)
-    - `__init__.py`
-    - `model.py` (main tensorflow graph python)
-    - `task.py` (imported by model.py, contains some arguments, ex: train file path, number of epoch ...)
+### The TF Frozen Fraph Model Structure 
+- `saved_model.pb`
+- variables
+-   - `variables.index`
+-   - `variables.xxxxxx-of-xxxxxx`
+
+### Add your model to google storage/bucket
 
 
-### Preparation
-#### Use virtual Environment (optional)
-- Create virtual environment: `virtualenv myvirtualenv`
-- Activate env source `myvirtualenv/bin/activate`
-
-#### Put your train.csv and test.csv in your gcp bucker
-- example: `gs://fatchur_test/train.csv` and `gs://fatchur_test/test.csv`
-
-### GCloud configuration:
-```
-DATE=`date '+%Y%m%d_%H%M%S'`
-export JOB_NAME=iris_$DATE
-export GCS_JOB_DIR=gs://your-bucket-name/path/to/my/jobs/$JOB_NAME
-echo $GCS_JOB_DIR
-export TRAIN_FILE=gs://fatchur_test/train.csv
-export EVAL_FILE=gs://fatchur_test/test.csv
-export TRAIN_STEPS=1000
-export EVAL_STEPS=100
-export REGION=us-central1
-```
-
-
-### Run in Google Cloud ML Engine:
-```
-gcloud ml-engine jobs submit training $JOB_NAME \
-    --stream-logs \
-    --runtime-version 1.10 \
-    --job-dir $GCS_JOB_DIR \
-    --module-name trainer.task \
-    --package-path trainer/ \
-    --region $REGION \
-    -- \
-    --train-file $TRAIN_FILE \
-    --eval-file $EVAL_FILE \
-    --train-steps $TRAIN_STEPS \
-    --eval-steps $EVAL_STEPS
-```
-
-
-## Make Prediction
+## Serving-Up the Model
 ### Create model
 `gcloud ml-engine models create <model-name> --regions <region>`
 
@@ -113,6 +115,7 @@ you should se these files:
 `gcloud ml-engine versions create <the-version> --model <model-name> --origin $MODEL_BINARIES --runtime-version 1.10` 
 
 
+## Online Prediction
 ### Make an Online Prediction with Gcloud Command
 `gcloud ml-engine predict --model <model-name> --version <model-version> --text-instances test.csv` <br>
 `gcloud ml-engine predict --model <model-name> --version <model-version> --json-instances test.json`
@@ -131,7 +134,7 @@ you should se these files:
 -   -   click `create key`
 -   -   `done`
 
-#### Executing json key
+#### Executing the credential json key
 -   `export GOOGLE_APPLICATION_CREDENTIALS=<path to your .json key>`
 -   `nano ~/.profilee` then add this: `export GOOGLE_APPLICATION_CREDENTIALS=<path to your .json key>`
 -   `source ~/.bashrc`

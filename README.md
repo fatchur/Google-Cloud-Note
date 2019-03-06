@@ -10,3 +10,10 @@ This repo contains my daily activity of using google cloud platform.
 | 3        | Big Query  |                 |
 | 4        | Storage    |   Python code for creating and inserting file in a bucket|
 | 5        | Credential |   How to create credential json | 
+
+
+##### Error Notes
+| No  |              Error                            |                       scope                                      |                 Solution                     |
+| --- | --------------------------------------------- | ---------------------------------------------------------------- |--------------------------------------------- |
+| 1   | Internal error ecountered                     |   request to ml engine from python, cloud function or app engine | Delete your model in ml engine, recreate it  |
+
