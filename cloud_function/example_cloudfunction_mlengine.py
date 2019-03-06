@@ -9,9 +9,9 @@ import numpy as np
 classes = ['class1', 'class2', 'class3']
 
 def predict(json_data):
-	PROJECTID = 'qoala-217505'
+	PROJECTID = 'your project id NOT your project name'
 	projectID = 'projects/{}'.format(PROJECTID)
-	modelName = 'kad'
+	modelName = 'your model name'
 	modelID = '{}/models/{}'.format(projectID, modelName)
 	credentials = GoogleCredentials.get_application_default()
 	ml = discovery.build('ml', 'v1', credentials=credentials)
