@@ -1,5 +1,5 @@
 activate certain service account:
-gcloud auth <your service account name> --key-file=<path to your key file .json>
+gcloud auth activate-service-account <your service account "Email" name> --key-file=<path to your key file .json>
 
 deploy app engine:
 gcloud app deploy app.yaml
