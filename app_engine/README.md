@@ -17,7 +17,8 @@ IF unfortunately you delete one of it, your app engine never successfully deploy
 
 SOLUTION: Make new project, ensure you don't delete it again.
 
-## To deploy app engine, your service account has contain this permissions:
+## Service Account Requirements:
+To deploy app engine, your service account has contain this permissions:
 - App Engine admin
 - Cloud Build Service Account
 
