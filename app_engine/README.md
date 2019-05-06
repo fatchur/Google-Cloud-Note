@@ -13,7 +13,7 @@ Never **DELETE** this service accounts in your project [im and admin/IAM]:
 - Cloud Build Service Agent (in Role column)
 
 IF unfortunately you delete one of it, your app engine never successfully deployed, the example errors are:
-- FAILED PRECONDITION: the app engine service account not exist in this <your project name>
+- FAILED PRECONDITION: the app engine service account not exist in this [your project name]
 
 SOLUTION: Make new project, ensure you don't delete it again.
 
@@ -31,6 +31,13 @@ gcloud auth activate-service-account <your service account "Email" name> --key-f
 gcloud app deploy app.yaml
 #### view log:
 gcloud app logs tail -s <your service name>
+
+## App Engine Type
+There are three types of app-engine,
+- Standard app engine: only support for pure python library (example code available in: [basic:only_python_lib])
+- Standard app engine V2: SUpport c++ python wrapped library like opencv-python, requests, and xgboost. (example code available in: [python_wrapper_cpp_support])
+- Flexible appengine: Real customize app engine using docker container. (not solved up to now, ------------)
+
 
 
 
