@@ -1,67 +1,57 @@
 from oauth2client.client import GoogleCredentials
 from googleapiclient import discovery
 from googleapiclient import errors
-import json
-import base64
-import cv2
-import numpy as np
 from PIL import Image
 import io
-
-
-classes = ['class1', 'class2', 'class3']
+import base64
+import cv2
+import json
+import numpy as np
 
 
 # Take in base64 string and return PIL image
 def stringToImage(base64_string):
-    imgdata = base64.b64decode(base64_string)
-    return Image.open(io.BytesIO(imgdata))
+    imgData = base64.b64decode(base64_string)
+    return Image.open(io.BytesIO(imgData)) , True
 
 
-def predict(json_data):
-    PROJECTID = 'your project id NOT your project name'
+def predict_ml_engine(json_data):
+    PROJECTID = 'qoala-217505'
     projectID = 'projects/{}'.format(PROJECTID)
-    modelName = 'your model name'
+    modelName = 'xray_mass'
     modelID = '{}/models/{}'.format(projectID, modelName)
     credentials = GoogleCredentials.get_application_default()
     ml = discovery.build('ml', 'v1', credentials=credentials)
     request_body = {"instances": [json_data]}
     req = ml.projects().predict(name=modelID, body=request_body)
-
+    
     resp = None
     status = 'fail'
-   
+    
     try:
         resp = req.execute()
         status = 'success'
     except errors.HttpError as err:
         resp = str(err._get_reason())
-    
+        
     return resp, status
 
-
-
-def mykad_predictor(request):
-    request_json = request.get_json()
-    base64string = request_json.get('image', None)
-    img = np.array(stringToImage(base64string))
+def predict(req):
+    json_data = req.get_json()
+    base64string = json_data.get('image', None)
+    imgData, statusConverImage = stringToImage(base64string)
+    imgData = np.array(imgData)
+    imgData =  cv2.resize(imgData, (340, 340))
     
-    img = cv2.resize(img, (100, 100))
-    #img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    img = img.astype(np.float32)
-    img = img/255.
-    img = img.tolist()
-    json_data = json.dumps(img)
-
-    res, status = predict(json.loads(json_data))
-    class_prediction = None
-    prediction_dict = {}
-    
-    if status == 'success':
-        res_prediction = np.argmax(res['predictions'][0]["output"])
-        class_prediction = classes[res_prediction]
-    else:
-        class_prediction = 'failed_to_recognize'
-    
-    prediction_dict['result'] = class_prediction
-    return (str(prediction_dict))
+    #---------------------------------------------------------------------------#
+    #                     ML Engine Request standard                            #
+    # - encode your image with jpg first                                        #
+    # - convert it with base64 string                                           #
+    # - the format is : {"instances": [json_data]}                              #
+    # - json_data = {'input': {'b64': base64.b64encode(jpg_enc_img).decode()},  #
+    #                'input2': {'b64': base64.b64encode(jpg_enc_img2).decode()}}#  
+    #---------------------------------------------------------------------------#
+    jpg_file = cv2.imencode('.jpeg', imgData)[1]
+    jpg_file = {'input': {'b64': base64.b64encode(jpg_file).decode()}}
+    resp, status = predict_ml_engine(jpg_file)
+    return json.dumps(resp)
