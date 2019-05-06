@@ -26,16 +26,48 @@ IF still fail to deploy: set service account as project owner. kwkwkwkwmk
 
 ## Usefull Command:
 #### activate certain service account:
-gcloud auth activate-service-account <your service account "Email" name> --key-file=<path to your key file .json>
+```
+gcloud auth activate-service-account <your service account "Email" name> --key-file=<path to 
+```
+your key file .json>
 #### deploy app engine:
+```
 gcloud app deploy app.yaml
+```
 #### view log:
+```
 gcloud app logs tail -s <your service name>
+```
+### additional
+**If** you want to upload your docker manually (Not Recomended):
+```
+#--------------------------------------------#
+#            gcp docker                      #
+#--------------------------------------------#
+docker build -t us.gcr.io/dev-firmament-215909/appengine/coba_aja .
+docker push us.gcr.io/dev-firmament-215909/appengine/coba_aja
+# show image list in GCP container registry
+gcloud container images list --repository=us.gcr.io/dev-firmament-215909
+# up your app engine
+gcloud app deploy app.yml --image-url=us.gcr.io/<project id>/appengine/<docker image name>
+```
+**If** you want to show all the process
+```
+gcloud app deploy app.yml --verbosity=debug
+```
+**If** you want to test your docker locally
+```
+#-------------------------------------------#
+#             local docker                  #  
+#-------------------------------------------#             
+docker build -t <image name> .
+docker run --network=host <image name>:<tag>
+```
 
 ## App Engine Type
 There are three types of app-engine,
-- Standard app engine: only support for pure python library (example code available in: [basic:only_python_lib])
-- Standard app engine V2: SUpport c++ python wrapped library like opencv-python, requests, and xgboost. (example code available in: [python_wrapper_cpp_support])
+- Standard app engine: only support for pure python library (example code available in: *basic:only_python_lib/*)
+- Standard app engine V2: SUpport c++ python wrapped library like opencv-python, requests, and xgboost. (example code available in: *python_wrapper_cpp_support/*)
 - Flexible appengine: Real customize app engine using docker container. (not solved up to now, ------------)
 
 
