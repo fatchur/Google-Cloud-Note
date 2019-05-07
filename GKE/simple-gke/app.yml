@@ -1,0 +1,7 @@
+service: customdocker2
+runtime: custom
+env: flex
+
+handlers:
+- url: /.*
+  script: helloworld.app
