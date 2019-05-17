@@ -16,9 +16,9 @@ def stringToImage(base64_string):
 
 
 def predict_ml_engine(json_data):
-    PROJECTID = 'qoala-217505'
+    PROJECTID = 'project id'
     projectID = 'projects/{}'.format(PROJECTID)
-    modelName = 'xray_mass'
+    modelName = 'ml engine model name'
     modelID = '{}/models/{}'.format(projectID, modelName)
     credentials = GoogleCredentials.get_application_default()
     ml = discovery.build('ml', 'v1', credentials=credentials)
