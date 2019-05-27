@@ -54,4 +54,16 @@ def predict(req):
     jpg_file = cv2.imencode('.jpeg', imgData)[1]
     jpg_file = {'input': {'b64': base64.b64encode(jpg_file).decode()}}
     resp, status = predict_ml_engine(jpg_file)
-    return json.dumps(resp)
+
+    if status == 'succes':
+        a = 200
+    else:
+        a = 400
+
+    headers = {}
+    headers['Access-Control-Allow-Origin'] = '*'
+    headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS, POST'
+    headers['Access-Control-Allow-Credentials'] = 'true'
+    headers['Access-Control-Allow-Headers'] = 'Authorization, Content-Type'
+    headers['Content-Type'] = 'application/json'
+    return (json.dumps(resp), a, headers)
