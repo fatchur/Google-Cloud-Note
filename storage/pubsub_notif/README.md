@@ -14,3 +14,6 @@
 ```
 gsutil notification create -f json gs://[YOUR_BUCKET_NAME]
 ```
+
+### Project Design
+![](storage_pubsub_trigger.jpg)
