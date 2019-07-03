@@ -3,14 +3,12 @@
 This repo contains my daily activity of using google cloud platform.
 
 #### Contains
-| No       |              Feature Name                     |     -       |
-| -------- | --------------------------------------------- | ----------------- |
-| 1        | ML Engine  |   Train configuration, file structure, model structure, serving the model            |
-| 2        | App Engine |   app engine example |
-| 3        | Big Query  |                 |
-| 4        | Storage    |   Python code for creating and inserting file in a bucket|
-| 5        | Credential |   How to create credential json | 
-| 6        | cloud function | example of ml engine model request from cloud function |
+- GKE
+- - 1. Readme (service account requirements, deployment instruction)
+- - 2. GKE example
+
+- App-engine
+- - 1. 
 
 
 ##### Error Notes
