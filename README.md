@@ -2,7 +2,13 @@
 
 This repo contains my daily activity of using google cloud platform.
 
-#### Contains
+#### Contain List
+- Credential
+- 1. Readme (how to create service account and get credential json, how to execute credential json)
+
+- Setup
+- 1. Readme : How to setup gcloud in your local computer
+
 - GKE
 - 1. Readme (service account requirements, deployment instruction)
 - 2. GKE example
@@ -16,7 +22,27 @@ This repo contains my daily activity of using google cloud platform.
 - Auto-ML
 - 1. How to request automl model via cloud-fuction
 
-- 
+- Cloud-fucntion
+- 1. How to request ML-engine via cloud-fucntion
+- 2. Read .csv/.pkl from gcs
+
+- Dataflow
+- 1. Dataflow example : gcs -> pubsub -> dataflow -> gcs
+- 2. README (dataflow description, how to deploy)
+
+- ML-engine
+- 1. Readme (PROGRESS)
+
+- Pubsub
+- 1. python publish message example
+- 2. python subscribe (pull) message example
+
+- Storage
+- 1. Python create bucket
+- 2. Python put local file in a bucket
+- 3. Python save opencv image in gcs
+- 4. Example project (pubsub_notif): Triggering pubsub when a file added in a bucket
+
 
 
 ##### Error Notes
