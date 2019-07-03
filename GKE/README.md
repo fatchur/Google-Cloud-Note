@@ -34,6 +34,9 @@ your key file .json>
 ```
 docker build -t us.gcr.io/<project id>/<folder name>/<dockername> .
 docker push us.gcr.io/<project id>/<folder name>/<dockername>
+
+# show image list in GCP container registry
+gcloud container images list --repository=us.gcr.io/<project id>
 ```
 #### test to run your docker image in local:
 ```
