@@ -31,7 +31,7 @@ This repo contains my daily activity of using google cloud platform.
 - 2. README (dataflow description, how to deploy)
 
 - **ML-engine**
-- 1. Readme (PROGRESS)
+- 1. Readme 
 
 - **Pubsub**
 - 1. python publish message example
