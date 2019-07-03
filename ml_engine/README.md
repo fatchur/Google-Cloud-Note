@@ -1,14 +1,22 @@
 # Google-Cloud-ML-Enigne-Note
 
+
 ### A. General Python Requirements
 - json
 - Google API python client : `pip3 install --upgrade google-api-python-client`
 - Google auth client : `pip3 install --upgrade oauth2client`
 
+
 ### B. MUST REMEMBER
 All batch sizes of tensorflow graph **should be unknown** (None) 
 
-### C. ML-Engine Training
+
+### C. Standard ML-Engine Training 
+This standard training result is a ready to berved model in ml-engine without additional steps.
+so the model is:
+- [x] already in ML-Engine standard format
+- [x] Must strong enough in tensorflow estimator
+
 #### C.1 File Structure:
 - setup.py             (package installation)
 - requirements.txt     (list of required packages)
@@ -17,7 +25,6 @@ All batch sizes of tensorflow graph **should be unknown** (None)
     - `__init__.py`
     - `model.py` (main tensorflow graph python)
     - `task.py` (imported by model.py, contains some arguments, ex: train file path, number of epoch ...)
-
 
 #### C.2 Preparation
 ##### Use virtual Environment (optional)
@@ -56,6 +63,8 @@ gcloud ml-engine jobs submit training $JOB_NAME \
     --eval-steps $EVAL_STEPS
 ```
 
+### D. Non Standard ML-Engine training
+The non standard 
 
 ## Service Model Preparation 
 ### Python Code for Creating TF Frozen Graph 
