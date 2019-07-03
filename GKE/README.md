@@ -37,6 +37,7 @@ docker push us.gcr.io/<project id>/<folder name>/<dockername>
 ```
 #### test to run your docker image in local:
 ```
+docker build -t <image name> .
 sudo docker run <docker name> network=host
 ```
 #### deploy gke:
