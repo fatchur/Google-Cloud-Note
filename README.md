@@ -2,7 +2,7 @@
 
 This repo contains my daily activity of using google cloud platform.
 
-#### Contain List
+## Content List
 - **Credential**
 - 1. Readme (how to create service account and get credential json, how to execute credential json)
 
@@ -45,7 +45,7 @@ This repo contains my daily activity of using google cloud platform.
 
 
 
-##### Error Notes
+## Error Notes
 | No  |              Error                            |                       scope                                      |                 Solution                     |
 | --- | --------------------------------------------- | ---------------------------------------------------------------- |--------------------------------------------- |
 | 1   | Internal error ecountered                     |   request to ml engine from python, cloud function or app engine | Delete your model in ml engine, recreate it  |
