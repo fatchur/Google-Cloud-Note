@@ -12,17 +12,16 @@ Never **DELETE** this service accounts in your project [im and admin/IAM]:
 - App Engine Flexible Environment Service Agent 
 - Cloud Build Service Agent (in Role column)
 
-IF unfortunately you delete one of it, your GKE never successfully deployed, the example errors are:
-- FAILED PRECONDITION: the app engine service account not exist in this [your project name]
+IF unfortunately you delete one of it, your GKE never successfully deployed.
 
-SOLUTION: Make new project, ensure you don't delete it again.
+SOLUTION: Make new project, ensure you never delete it again.
 
 ## Service Account Requirements:
-To deploy app engine, your service account has contain this permissions:
+To deploy GKE, your service account should have contained this permission:
 - Kubernetes engine admin
 - Cloud Build Service Account
 
-IF still fail to deploy: set service account as project owner. kwkwkwkwmk
+IF this still fail to deploy: set service account as project owner. kwkwkwkwmk
 
 ## Usefull Command:
 #### activate certain service account:
@@ -33,10 +32,10 @@ your key file .json>
 ```
 #### prepare the docker
 ```
-docker build -t us.gcr.io/<project name>/<folder>/<dockername> .
-docker push us.gcr.io/<project name>/<folder>/<dockername>
+docker build -t us.gcr.io/<project id>/<folder name>/<dockername> .
+docker push us.gcr.io/<project id>/<folder name>/<dockername>
 ```
-#### check to run docker image:
+#### test to run your docker image in local:
 ```
 sudo docker run <docker name> network=host
 ```
