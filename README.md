@@ -4,11 +4,19 @@ This repo contains my daily activity of using google cloud platform.
 
 #### Contains
 - GKE
-- - 1. Readme (service account requirements, deployment instruction)
-- - 2. GKE example
+- 1. Readme (service account requirements, deployment instruction)
+- 2. GKE example
 
 - App-engine
-- - 1. 
+- 1. Readme (service account requirements, deployment instruction)
+- 2. Appengine pure python example
+- 3. App engine with non python dependency pypi (opencv) example 
+- 4. App engine with docker example (ERROR)
+
+- Auto-ML
+- 1. How to request automl model via cloud-fuction
+
+- 
 
 
 ##### Error Notes
