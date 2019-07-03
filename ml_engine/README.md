@@ -1,15 +1,15 @@
 # Google-Cloud-ML-Enigne-Note
 
-## A. General Python Requirements
+### A. General Python Requirements
 - json
 - Google API python client : `pip3 install --upgrade google-api-python-client`
 - Google auth client : `pip3 install --upgrade oauth2client`
 
-## B. MUST REMEMBER
+### B. MUST REMEMBER
 All batch sizes of tensorflow graph **should be unknown** (None) 
 
-## C. ML-Engine Training
-### C.1 File Structure:
+### C. ML-Engine Training
+#### C.1 File Structure:
 - setup.py             (package installation)
 - requirements.txt     (list of required packages)
 - hptuning_config.yaml (for hyper parameters tunning)
@@ -19,15 +19,15 @@ All batch sizes of tensorflow graph **should be unknown** (None)
     - `task.py` (imported by model.py, contains some arguments, ex: train file path, number of epoch ...)
 
 
-### C.2 Preparation
-#### Use virtual Environment (optional)
+#### C.2 Preparation
+##### Use virtual Environment (optional)
 - Create virtual environment: `virtualenv myvirtualenv`
 - Activate env source `myvirtualenv/bin/activate`
 
-#### Put your train.csv and test.csv in your gcp bucker
+##### Put your train.csv and test.csv in your gcp bucker
 - example: `gs://fatchur_test/train.csv` and `gs://fatchur_test/test.csv`
 
-### C.3 Training Command in Local:
+#### C.3 Training Command in Local:
 ```
 DATE=`date '+%Y%m%d_%H%M%S'`
 export JOB_NAME=iris_$DATE
@@ -40,7 +40,7 @@ export EVAL_STEPS=100
 export REGION=us-central1
 ```
 
-### C.4 Training Command in Google Cloud ML Engine:
+#### C.4 Training Command in Google Cloud ML Engine:
 ```
 gcloud ml-engine jobs submit training $JOB_NAME \
     --stream-logs \
