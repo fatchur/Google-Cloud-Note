@@ -1,0 +1,8 @@
+runtime: python37
+service: dataflow-streaming-web
+#entrypoint: gunicorn -b :8080 main:app
+
+automatic_scaling:
+    min_instances: 0
+    max_instances: 3
+    max_concurrent_requests: 1000
