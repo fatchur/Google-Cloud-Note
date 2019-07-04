@@ -297,3 +297,9 @@ def predict(req):
     jpg_file = {'input': {'b64': base64.b64encode(jpg_file).decode()}}
     resp, status = predict_ml_engine(jpg_file)
 ```
+
+##### F.2.5 Minimum Python Package Required
+```
+oauth2client
+google-api-python-client
+```
