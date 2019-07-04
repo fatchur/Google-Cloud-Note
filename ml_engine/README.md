@@ -83,9 +83,6 @@ prediction_signature = tf.saved_model.signature_def_utils.build_signature_def(
         inputs={'input': tensor_info_x},
         outputs={'output': tensor_info_y},
         method_name=tf.saved_model.signature_constants.REGRESS_METHOD_NAME)
-# So your input json is:
-# {"input": your features}
-# REMEMBER: the shape of your feature is without batch for single request
 
 # build frozen graph
 legacy_init_op = tf.group(tf.tables_initializer(), name='legacy_init_op')
@@ -100,6 +97,59 @@ builder.save()
 ```
 
 #### D.3 Model Preparation (Image Data)
+- input string
+```python
+input_string = tf.placeholder(tf.string, shape=[None], name='string_input')
+decode = lambda raw_byte_str: tf.image.resize_images(
+                                        tf.cast(
+                                            tf.image.decode_jpeg(raw_byte_str, channels=3, name='decoded_image'),
+                                                tf.int8), 
+                                        [image_height, image_width])
+                       
+input_images = tf.map_fn(decode, input_string, dtype=tf.float32)
+input_images = input_images / 255.0
+
+# ---------------------------------- #
+# next :                             #
+# feed input_images to your network  #
+# then, add python code bellow for   #
+# designing tensorflow signature     #
+```
+
+- model signature preparation
+```python
+############  serving model procedure #################
+builder = tf.saved_model.builder.SavedModelBuilder('saved_model_folder/')
+
+# Create aliase tensors
+# tensor_info_x: for input tensor
+# tensor_info_y: for output tensor
+tensor_info_x = tf.saved_model.utils.build_tensor_info('your input tensor, in this case: input_string')
+tensor_info_y1 = tf.saved_model.utils.build_tensor_info('your output tensor 1')
+tensor_info_y2 = tf.saved_model.utils.build_tensor_info('your output tensor 2') # if any
+tensor_info_y3 = tf.saved_model.utils.build_tensor_info('your output tensor 3') # if any
+
+
+# create prediction signature
+prediction_signature = tf.saved_model.signature_def_utils.build_signature_def(
+        inputs={'input': tensor_info_x},
+        outputs={'output1': tensor_info_y1,
+                 'output2': tensor_info_y2,
+                 'output3': tensor_info_y3 },
+        method_name=tf.saved_model.signature_constants.PREDICT_METHOD_NAME)
+
+# build frozen graph
+legacy_init_op = tf.group(tf.tables_initializer(), name='legacy_init_op')
+builder.add_meta_graph_and_variables(
+    sess, [tf.saved_model.tag_constants.SERVING],
+    signature_def_map={
+        'predict_result':
+        prediction_signature
+    },
+    legacy_init_op=legacy_init_op)
+builder.save()
+```
+
 
 #### D.4 TF Frozen Graph Model Structure 
 - `saved_model.pb`
@@ -188,8 +238,8 @@ def predict_json(project, model, instances, version=None):
 
     return response['predictions']
 
-PROJECT_ID  = "transmart-212604"
-MODEL = "try_egg"
+PROJECT_ID  = "your project id"
+MODEL = "your ml engine model name"
 # the input
 instance = {"input": [[ 0.58, -0.8016005 ], [ 0.58, -0.53400874], [ 0.45333335, 0.8453637 ]]}
 res = predict_json(project=PROJECT_ID, model=MODEL, instances=instance, version="v5")
