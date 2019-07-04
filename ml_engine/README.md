@@ -227,7 +227,6 @@ def predict_json(project, model, instances, version=None):
 
     if version is not None:
         name += '/versions/{}'.format(version)
-
     response = service.projects().predict(
         name=name,
         body={'instances': instances}
@@ -235,8 +234,8 @@ def predict_json(project, model, instances, version=None):
 
     if 'error' in response:
         raise RuntimeError(response['error'])
-
     return response['predictions']
+
 
 PROJECT_ID  = "your project id"
 MODEL = "your ml engine model name"
@@ -244,4 +243,57 @@ MODEL = "your ml engine model name"
 instance = {"input": [[ 0.58, -0.8016005 ], [ 0.58, -0.53400874], [ 0.45333335, 0.8453637 ]]}
 res = predict_json(project=PROJECT_ID, model=MODEL, instances=instance, version="v5")
 print (res)
+```
+
+##### F.2.4 Python Example (Case: image data model)
+```python
+import io
+import cv2
+import base64
+import numpy as np
+from PIL import Image
+from oauth2client.client import GoogleCredentials
+from googleapiclient import discovery
+from googleapiclient import errors
+
+
+# Take in base64 string and return PIL image
+def stringToImage(base64_string):
+    imgData = base64.b64decode(base64_string)
+    return Image.open(io.BytesIO(imgData)) , True
+
+
+def predict_ml_engine(json_data):
+    PROJECTID = 'project id'
+    projectID = 'projects/{}'.format(PROJECTID)
+    modelName = 'model name'
+    modelID = '{}/models/{}'.format(projectID, modelName)
+    credentials = GoogleCredentials.get_application_default()
+    ml = discovery.build('ml', 'v1', credentials=credentials)
+    request_body = {"instances": [json_data]}
+    req = ml.projects().predict(name=modelID, body=request_body)
+    
+    resp = None
+    status = 'fail'
+    try:
+        resp = req.execute()
+        status = 'success'
+    except errors.HttpError as err:
+        resp = str(err._get_reason())
+        
+    return resp, status
+
+
+def predict(req):
+    json_data = req.get_json()
+    base64string = json_data.get('image', None)
+    imgData, statusConverImage = stringToImage(base64string)
+    imgData = np.array(imgData)
+    # -------- do image processing here ----------------#
+    imgData =  cv2.resize(imgData, (340, 340))
+    
+    # -------- ML-Engine format preparation ------------#
+    jpg_file = cv2.imencode('.jpeg', imgData)[1]
+    jpg_file = {'input': {'b64': base64.b64encode(jpg_file).decode()}}
+    resp, status = predict_ml_engine(jpg_file)
 ```
