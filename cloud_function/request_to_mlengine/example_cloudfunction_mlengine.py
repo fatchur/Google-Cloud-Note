@@ -11,11 +11,27 @@ import numpy as np
 
 # Take in base64 string and return PIL image
 def stringToImage(base64_string):
+    """Function for decoding the base64 image
+    
+    Arguments:
+        base64_string {[type]} -- [description]
+    
+    Returns:
+        [type] -- [description]
+    """
     imgData = base64.b64decode(base64_string)
     return Image.open(io.BytesIO(imgData)) , True
 
 
 def predict_ml_engine(json_data):
+    """Function for predicting via ml engine
+    
+    Arguments:
+        json_data {[type]} -- [description]
+    
+    Returns:
+        [type] -- [description]
+    """
     PROJECTID = 'project id'
     projectID = 'projects/{}'.format(PROJECTID)
     modelName = 'ml engine model name'
@@ -38,6 +54,20 @@ def predict_ml_engine(json_data):
 
 def predict(req):
     json_data = req.get_json()
+    
+    # --------------------------------------- #
+    # Part for handling options cors problem  #
+    # --------------------------------------- #
+    if req.method == 'OPTIONS':
+        # Allows GET requests from origin https://mydomain.com with
+        # Authorization header
+        headers = {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST,OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'
+        }
+        return ('', 204, headers)
+
     base64string = json_data.get('image', None)
     imgData, statusConverImage = stringToImage(base64string)
     imgData = np.array(imgData)
