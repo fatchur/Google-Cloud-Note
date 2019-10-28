@@ -1,0 +1,13 @@
+uuid
+flask
+numpy
+pillow
+gunicorn
+requests
+flask-cors
+oauth2client
+opencv-python
+google-cloud-pubsub
+google-cloud-storage
+google-api-python-client 
+
