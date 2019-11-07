@@ -54,3 +54,7 @@ def upload_image():
     resp['message'] = 'test GKE ===============>>>'
     return (json.dumps(resp), 200, headers)
 
+
+if __name__ == '__main__':
+    app.run(app, host='0.0.0.0', port=8080, debug=True)
+

@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: test-gke
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-gke
+  template:
+    metadata:
+      labels:
+        app: test-gke
+    spec:
+      containers:
+      - name: test-gke
+        image: fatchur/test-gke:v1
+        ports:
+        - containerPort: 8080
+          name: http
+        - containerPort: 22
+          name: ssh
