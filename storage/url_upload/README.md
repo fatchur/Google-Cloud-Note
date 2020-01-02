@@ -1,6 +1,9 @@
 ## About Project
 This is the documentation of uploading file in GCS via **signed url**. Signed url is a gcp generated url for uploading the file to the gcs. The signed url is changing everytime.
 
+### Keyword
+`blob.create_resumable_upload_session()`
+
 
 ### Project Flow
 ![](gcs_signed_url.png)
