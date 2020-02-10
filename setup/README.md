@@ -62,7 +62,13 @@ Service account format
 
 ```
 
-7. Reference: 
+7. Common PIP Packages
+```
+oauth2client
+google-api-python-client
+```
+
+8. Reference: 
 [https://cloud.google.com/sdk/docs/downloads-apt-get](https://cloud.google.com/sdk/docs/downloads-apt-get)
 
 
