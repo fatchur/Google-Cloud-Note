@@ -35,12 +35,34 @@ example:
 sudo apt-get install google-cloud-sdk-app-engine-java
 ```
 
-5. starting:
+5. Starting:
 ```
 gcloud init
 ```
 
-6. Reference: 
+6. Setup GCP Service Account Credetials
+```
+export GOOGLE_APPLICATION_CREDENTIALS="/home/user/Downloads/[FILE_NAME].json"
+```
+
+Service account format
+```
+{
+  "type": "service_account",
+  "project_id": 
+  "private_key_id": 
+  "private_key": 
+  "client_email": 
+  "client_id": 
+  "auth_uri": 
+  "token_uri": 
+  "auth_provider_x509_cert_url": 
+  "client_x509_cert_url": 
+}
+
+```
+
+7. Reference: 
 [https://cloud.google.com/sdk/docs/downloads-apt-get](https://cloud.google.com/sdk/docs/downloads-apt-get)
 
 
