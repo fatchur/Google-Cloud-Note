@@ -1,3 +1,9 @@
+import base64
+import binascii
+import cv2 
+from qoaladep.utils.image_utils import encode_image_to_b64
+
+
 def localize_objects(path):
     """Localize objects in the local image.
 
@@ -7,8 +13,10 @@ def localize_objects(path):
     from google.cloud import vision
     client = vision.ImageAnnotatorClient()
 
-    with open(path, 'rb') as image_file:
-        content = image_file.read()
+    #with open(path, 'rb') as image_file:
+    #    content = image_file.read()
+    content = path
+    print (content)
     image = vision.types.Image(content=content)
 
     objects = client.object_localization(
@@ -22,4 +30,6 @@ def localize_objects(path):
             print(' - ({}, {})'.format(vertex.x, vertex.y))
 
 
-localize_objects('images/phone3.jpg')
+img = cv2.imread('images/phone3.jpg')
+img_jpg = cv2.imencode('.jpg', img)[1].tobytes()
+localize_objects(img_jpg)
