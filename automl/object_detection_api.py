@@ -16,11 +16,9 @@ def localize_objects(path):
     #with open(path, 'rb') as image_file:
     #    content = image_file.read()
     content = path
-    print (content)
-    image = vision.types.Image(content=content)
+    image = vision.Image(content=content)
 
-    objects = client.object_localization(
-        image=image).localized_object_annotations
+    objects = client.object_localization(image=image).localized_object_annotations
 
     print('Number of objects found: {}'.format(len(objects)))
     for object_ in objects:
@@ -30,6 +28,6 @@ def localize_objects(path):
             print(' - ({}, {})'.format(vertex.x, vertex.y))
 
 
-img = cv2.imread('images/phone3.jpg')
+img = cv2.imread('images/frame1.jpg')
 img_jpg = cv2.imencode('.jpg', img)[1].tobytes()
 localize_objects(img_jpg)
